@@ -132,23 +132,21 @@ target_include_directories(dysmsapi
 target_link_libraries(dysmsapi
 	core)
 
+#setting your json_lib and curl_lib
+target_include_directories(dysmsapi PRIVATE D:/C++/Common/Common/include)
+target_link_libraries(dysmsapi
+		debug D:/C++/Common/Common/lib/json_libd.lib
+		debug D:/C++/Common/Common/lib/libcurld.lib
+		optimized D:/C++/Common/Common/lib/json_lib.lib
+		optimized D:/C++/Common/Common/lib/libcurl.lib
+		)
+
 if(CMAKE_HOST_WIN32)
-	ExternalProject_Get_Property(jsoncpp INSTALL_DIR)
-	set(jsoncpp_install_dir ${INSTALL_DIR})
-	add_dependencies(dysmsapi
-		jsoncpp)
-	target_include_directories(dysmsapi
-		PRIVATE	${jsoncpp_install_dir}/include)
-	target_link_libraries(dysmsapi
-		${jsoncpp_install_dir}/lib/jsoncpp.lib)
+
 	set_target_properties(dysmsapi
     	PROPERTIES
     		COMPILE_OPTIONS "/bigobj")
 else()
-	target_include_directories(dysmsapi
-		PRIVATE /usr/include/jsoncpp)
-	target_link_libraries(dysmsapi
-		jsoncpp)
 endif()
 
 install(FILES ${dysmsapi_public_header}

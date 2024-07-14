@@ -160,25 +160,23 @@ endif()
 target_include_directories(core
 	PRIVATE include )
 
+#setting your json_lib and curl_lib
+target_include_directories(core PRIVATE D:/C++/Common/Common/include)
+target_link_libraries(core
+		debug D:/C++/Common/Common/lib/json_libd.lib
+		debug D:/C++/Common/Common/lib/libcurld.lib
+		optimized D:/C++/Common/Common/lib/json_lib.lib
+		optimized D:/C++/Common/Common/lib/libcurl.lib
+		)
+
 if(CMAKE_HOST_WIN32)
-	ExternalProject_Get_Property(curl INSTALL_DIR)
-	set(curl_install_dir ${INSTALL_DIR})
-	ExternalProject_Get_Property(jsoncpp INSTALL_DIR)
-	set(jsoncpp_install_dir ${INSTALL_DIR})
-	add_dependencies(core
-		curl
-		jsoncpp )
 	target_include_directories(core
-		PRIVATE	${curl_install_dir}/include
-			${jsoncpp_install_dir}/include
+		PRIVATE	
 			${tinyxml2_install_dir}/include)
 	target_link_libraries(core
 		Crypt32
 		Rpcrt4
 		Ws2_32
-		${jsoncpp_install_dir}/lib/jsoncpp.lib
-		debug ${curl_install_dir}/lib/libcurl-d.lib
-		optimized ${curl_install_dir}/lib/libcurl.lib
 		)
 	target_compile_definitions(core
 		PRIVATE CURL_STATICLIB
@@ -189,16 +187,10 @@ elseif(CMAKE_HOST_APPLE)
 		PRIVATE /usr/local/include)
 	target_link_libraries(core
 		/usr/local/lib/libcrypto.dylib
-		curl
-		/usr/local/lib/libjsoncpp.dylib
 		/usr/local/lib/libuuid.dylib )
 else()
-	target_include_directories(core
-		PRIVATE /usr/include/jsoncpp)
 	target_link_libraries(core
 		crypto
-		curl
-		jsoncpp
 		uuid )
 endif()
 

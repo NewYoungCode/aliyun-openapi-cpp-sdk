@@ -18,7 +18,16 @@
 #define CORE_SRC_CURLHTTPCLIENT_H_
 
 #include <alibabacloud/core/HttpClient.h>
-#include <curl/curl.h>
+
+
+#ifndef CURL_STATICLIB
+#define CURL_STATICLIB
+#endif // !CURL_STATICLIB
+#include "curl/curl.h"
+#include "curl/easy.h"
+#pragma comment(lib, "Crypt32.lib") // curl需要的库
+#pragma comment(lib, "wldap32.lib") // curl需要的库
+#pragma comment(lib, "ws2_32.lib")  // curl需要的库
 
 namespace AlibabaCloud {
 class CurlHttpClient : public HttpClient {
